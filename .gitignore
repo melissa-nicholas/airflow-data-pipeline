@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.db
+*.log
+.env
+airflow/airflow.db
+airflow/logs/
+.airflow/
+.dbt/
+dbt_packages/
+target/
+.env/
+*.duckdb
+

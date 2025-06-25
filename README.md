@@ -1,15 +1,41 @@
-# Airflow Data Pipeline – Hello World DAG
+# Airflow + dbt + DuckDB Data Pipeline
 
-This project is a beginner-friendly introduction to Apache Airflow. It includes a basic DAG that prints a message to the logs 
-once per day.
+This is a minimal end-to-end data engineering project using Apache Airflow, dbt Core, and DuckDB — built locally to demonstrate 
+orchestration, transformation, and data modeling.
 
-## What's Included
+## 🛠 Tech Stack
 
-- hello_world_dag.py: A simple DAG using a PythonOperator to print "Hello, world from Airflow!".
-- Project structure following Airflow best practices
-- GitHub repo for tracking and sharing work
+- Apache Airflow: DAG orchestration and scheduling
+- dbt Core: SQL-based transformations
+- DuckDB: In-process database for fast local analytics
+- Python 3.9 in a virtual environment (airflow-venv)
+- Git/GitHub for version control
 
-## How to Run Locally
+## 📁 Project Structure
+
+airflow-data-pipeline/
+├── airflow/                # Airflow home directory
+│   └── dags/
+│       └── hello_world_dag.py
+├── dbt_duckdb_project/     # dbt Core project
+│   ├── models/
+│   │   └── full_names.sql
+│   ├── seeds/
+│   │   └── people.csv
+│   └── dbt_project.yml
+├── requirements.txt        # Python dependencies
+└── README.md
+
+## ✅ What It Does
+
+Airflow DAG:
+- Runs a simple PythonOperator that prints "Hello, world from Airflow!"
+
+dbt Models:
+- Seeds people.csv into DuckDB as a table
+- Builds a model full_names.sql that adds a full_name column
+
+## 🚀 How to Run
 
 1. Clone this repo:
    git clone https://github.com/melissa-nicholas/airflow-data-pipeline.git
@@ -19,27 +45,34 @@ once per day.
    python3 -m venv airflow-venv
    source airflow-venv/bin/activate
 
-3. Install Airflow:
-   pip install apache-airflow
+3. Install dependencies:
+   pip install -r requirements.txt
 
-4. Run Airflow:
-   airflow standalone
+4. Set up Airflow and start the UI:
+   export AIRFLOW_HOME=~/airflow
+   airflow db init
+   airflow webserver
+   # In another terminal
+   airflow scheduler
 
-5. Access the Airflow UI:
-   Visit http://localhost:8080 in your browser
+5. Run dbt:
+   cd dbt_duckdb_project
+   dbt seed
+   dbt run
 
-## DAG Location
+## 🧠 What You Learn
 
-All DAGs live inside the dags/ directory. You can extend this project by:
+- Orchestrating with Airflow
+- Building and testing dbt models
+- Managing local analytics with DuckDB
+- Version-controlling data projects with Git
 
-- Adding a data ingestion task
-- Triggering a dbt Cloud job
-- Sending Slack alerts
+## 📬 Contact
 
-## Next Steps
+Built by Melissa Nicholas  
+GitHub: https://github.com/melissa-nicholas
 
-This is the foundation — next up will be:
-- Loading sample data into Snowflake
-- Adding a dbt transformation layer
-- Building a complete, real-world DAG pipeline
+---
+
+Want to build this yourself? Start with hello_world_dag.py and add models one step at a time!
 
