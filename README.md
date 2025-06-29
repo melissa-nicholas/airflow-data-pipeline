@@ -41,7 +41,8 @@ The pipeline builds a star schema with:
 
 ```
 .
-├── airflow/                  # DAGs (optional)
+├── dags/
+│   ├──dbt_duckdb_dag.py           
 ├── dbt_duckdb_project/
 │   ├── models/
 │   │   ├── staging/
@@ -73,13 +74,6 @@ DAG file path:
 ```
 airflow/dags/dbt_duckdb_pipeline.py
 ```
-
-
-## 💡 Future Ideas
-
-- Add Streamlit dashboard from `fct_orders`
-- Add a CI/CD pipeline via GitHub Actions
-- Port to Snowflake or BigQuery for cloud demo
 
 ---
 
