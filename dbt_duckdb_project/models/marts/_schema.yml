@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: Dimensional model for customer data
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_products
+    description: Dimensional model for product data
+    columns:
+      - name: product_id
+        description: Primary key
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_orders
+    description: Fact model for orders
+    columns:
+      - name: order_id
+        description: Primary key
+        tests:
+          - not_null
+          - unique
