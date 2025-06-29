@@ -8,7 +8,7 @@ default_args = {
     'retries': 1,
 }
 
-DBT_DIR = "./dbt_duckdb_project"
+DBT_DIR = "/Users/melissanicholas/airflow-data-pipeline/dbt_duckdb_project"
 
 with DAG(
     dag_id="dbt_duckdb_pipeline",
