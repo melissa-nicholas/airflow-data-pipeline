@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from datetime import datetime
 
 default_args = {
@@ -14,7 +14,7 @@ with DAG(
     dag_id="dbt_duckdb_pipeline",
     default_args=default_args,
     description="A simple DAG to run dbt with DuckDB",
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
     tags=["dbt", "duckdb", "portfolio"],
 ) as dag:
