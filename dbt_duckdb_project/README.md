@@ -1,15 +1,21 @@
-Welcome to your new dbt project!
+# dbt_duckdb_project
 
-### Using the starter project
+This is the dbt Core project used in the Airflow + DuckDB pipeline.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Structure
+- `models/`: Contains SQL models like `full_names.sql`
+- `seeds/`: Seed data like `people.csv`
+- `dbt_project.yml`: Project configuration
 
+## Run dbt locally
+```bash
+dbt seed
+dbt run
+dbt test
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+# Profile Location
+
+This project uses a local `profiles.yml` in the same directory, passed with:
+dbt run --profiles-dir .
+
+For more info, see the main project README in the root folder.
