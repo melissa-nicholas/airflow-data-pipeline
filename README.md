@@ -1,88 +1,108 @@
-# Airflow + dbt + DuckDB Data Pipeline
+# 🌟 dbt + Airflow + DuckDB: Mini Star Schema Analytics Project
 
-This is a minimal end-to-end data engineering project using Apache Airflow, dbt Core, and DuckDB — built locally to demonstrate 
-orchestration, transformation, and data modeling.
+This is a lightweight, end-to-end data pipeline built with [dbt Core](https://www.getdbt.com/), [Apache Airflow](https://airflow.apache.org/), and [DuckDB](https://duckdb.org/). It demonstrates how to orchestrate and model data in a local analytics engineering environment — no cloud required.
 
-## 🛠 Tech Stack
+## 🔧 Tech Stack
 
-- **Apache Airflow**: DAG orchestration and scheduling  
-- **dbt Core**: SQL-based transformations  
-- **DuckDB**: In-process database for fast local analytics  
-- **Python 3.9** in a virtual environment (`airflow-venv`)  
-- **Git/GitHub** for version control  
+- **Airflow**: DAG orchestration (daily run)
+- **dbt Core**: SQL-based transformations and testing
+- **DuckDB**: In-process SQL analytics engine (local file storage)
+- **Mockaroo**: Seed data (customers, products, orders)
 
-## 📁 Project Structure
+## 🧱 Data Model
+
+The pipeline builds a star schema with:
+
+### 📦 Fact Table
+- `fct_orders`: Order-level data, joined with products and calculated total sales
+
+### 🧑‍🤝‍🧑 Dimension Tables
+- `dim_customers`: Full name, email, signup region/year
+- `dim_products`: Product metadata with category and price
+
+### 🔄 Staging Models
+- Raw seed cleanup and typing
+
+## 📈 Example Metrics (could be extended)
+- Total sales by category
+- Customers by region
+- Repeat customer rate
+- Lifetime value (LTV)
+
+## ✅ dbt Features Used
+
+- `seeds`, `ref`, `sources`
+- `tests`: unique + not null
+- `Jinja` + `strptime()` for DuckDB compatibility
+- `schema.yml` documentation
+- Materializations: `view`, `table`
+
+## 📂 Project Structure
 
 ```
-airflow-data-pipeline/
-├── airflow/                   # Airflow home directory
-│   └── dags/
-│       └── dbt_duckdb_dag.py
-├── dbt_duckdb_project/        # dbt Core project
+.
+├── airflow/                  # DAGs (optional)
+├── dbt_duckdb_project/
 │   ├── models/
-│   │   └── full_names.sql
+│   │   ├── staging/
+│   │   │   ├── stg_customers.sql
+│   │   │   ├── stg_products.sql
+│   │   │   └── stg_orders.sql
+│   │   ├── marts/
+│   │   │   ├── dim_customers.sql
+│   │   │   ├── dim_products.sql
+│   │   │   └── fct_orders.sql
 │   ├── seeds/
-│   │   └── people.csv
-│   ├── dbt_project.yml
-│   └── profiles.yml
-├── requirements.txt           # Python dependencies
-└── README.md
+│   │   ├── customers.csv
+│   │   ├── products.csv
+│   │   └── orders.csv
 ```
 
-## ✅ What It Does
+### 🛠 Airflow DAG
 
-### Airflow DAG
+This project includes an [Apache Airflow](https://airflow.apache.org/) DAG that orchestrates the full dbt workflow locally. The DAG includes the following steps:
 
-- Runs a full DAG that:
-  - Installs dbt dependencies
-  - Seeds raw data into DuckDB
-  - Runs models to build transformed data
-  - Executes dbt tests
+1. **Install dependencies** with `dbt deps`
+2. **Seed data** from local CSVs with `dbt seed`
+3. **Build models** using `dbt run`
+4. **Run tests** to validate models with `dbt test`
 
-### dbt Models
+The DAG is manually triggerable (no schedule by default) and is designed to run against a local DuckDB target. It showcases orchestration skills and simulates a production-style data pipeline using open-source tools only.
 
-- Seeds `people.csv` into DuckDB as a table  
-- Builds a model `full_names.sql` that adds a `full_name` column  
+DAG file path:
+```
+airflow/dags/dbt_duckdb_pipeline.py
+```
+
+
+## 💡 Future Ideas
+
+- Add Streamlit dashboard from `fct_orders`
+- Add a CI/CD pipeline via GitHub Actions
+- Port to Snowflake or BigQuery for cloud demo
+
+---
 
 ## 🚀 How to Run
 
-```bash
-# Clone the repo
-git clone https://github.com/melissa-nicholas/airflow-data-pipeline.git
-cd airflow-data-pipeline
+1. Clone the repo
+2. Install dependencies (`pip install dbt-duckdb`)
+3. Run:
+   ```
+   dbt seed
+   dbt build
+   dbt docs serve
+   ```
 
-# Create and activate a virtual environment
-python3 -m venv airflow-venv
-source airflow-venv/bin/activate
+Optional: Airflow DAGs can be used to run this on a schedule.
 
-# Install dependencies
-pip install -r requirements.txt
+---
 
-# Set Airflow DAGs folder
-export AIRFLOW__CORE__DAGS_FOLDER=$(pwd)/airflow/dags
+## 🙋‍♀️ About Me
 
-# Initialize Airflow
-airflow db init
+I'm a full-stack data professional with experience in cloud data warehousing, ELT pipelines, and BI tooling. This project showcases my skills across modeling, orchestration, testing, and warehouse design — all using open-source, local-first tools.
 
-# Start Airflow services
-airflow webserver       # In one terminal
-airflow scheduler       # In another terminal
+👉 [Connect on LinkedIn](https://www.linkedin.com/in/melissa-nicholas-7a143593/)
 
-# Trigger the DAG
-airflow dags trigger dbt_duckdb_pipeline
-```
 
-## 🧠 What You Learn
-
-- Orchestrating dbt with Airflow  
-- Building and testing dbt models  
-- Using DuckDB for local analytics  
-- Version-controlling data projects  
-
-## 📬 Contact
-
-Built by **Melissa Nicholas**  
-GitHub: [melissa-nicholas](https://github.com/melissa-nicholas)
-
-> Want to build this yourself? Start with `hello_world_dag.py` and add models one step at a time!
-
+Built with ❤️ by Melissa Nicholas
