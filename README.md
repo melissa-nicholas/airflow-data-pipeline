@@ -35,8 +35,8 @@ The pipeline builds a star schema with:
            │
            ▼
    ┌──────────────────┐
-   │ dbt run + dbt test│
-   └──────┬────────────┘
+   │dbt run + dbt test│
+   └──────┬───────────┘
           │
           ▼
      ┌───────────┐
