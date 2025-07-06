@@ -1,35 +1,52 @@
-# 🌟 dbt + Airflow + DuckDB: Mini Star Schema Analytics Project
+# dbt + Airflow + DuckDB: Mini Star Schema Analytics Project
 
-This is a lightweight, end-to-end data pipeline built with [dbt Core](https://www.getdbt.com/), [Apache Airflow](https://airflow.apache.org/), and [DuckDB](https://duckdb.org/). It demonstrates how to orchestrate and model data in a local analytics engineering environment — no cloud required.
+This project simulates a real-world ELT pipeline using Apache Airflow and dbt to transform raw e-commerce order data into clean, queryable tables. It uses DuckDB as a local analytical engine and follows modern data engineering principles, including modular SQL modeling, data testing, and DAG orchestration. 
 
-## 🔧 Tech Stack
+## Tech Stack
 
-- **Airflow**: DAG orchestration (daily run)
-- **dbt Core**: SQL-based transformations and testing
-- **DuckDB**: In-process SQL analytics engine (local file storage)
-- **Mockaroo**: Seed data (customers, products, orders)
+| Layer            | Tool              |
+|------------------|-------------------|
+| Orchestration     | Apache Airflow     |
+| Transformation    | dbt (DuckDB adapter) |
+| Analytical Engine | DuckDB              |
+| Data Source       | CSV (Seeded Data)   |
+| Language          | Python + SQL        |
 
-## 🧱 Data Model
+## Data Model
 
 The pipeline builds a star schema with:
 
-### 📦 Fact Table
+### Fact Table
 - `fct_orders`: Order-level data, joined with products and calculated total sales
 
-### 🧑‍🤝‍🧑 Dimension Tables
+### Dimension Tables
 - `dim_customers`: Full name, email, signup region/year
 - `dim_products`: Product metadata with category and price
 
-### 🔄 Staging Models
+### Staging Models
 - Raw seed cleanup and typing
 
-## 📈 Example Metrics (could be extended)
+## Pipeline Flow
+
+           ┌──────────────┐
+           │   Airflow    │
+           └────┬─────────┘
+                │
+ ┌──────────────▼──────────────┐
+ │       dbt run + dbt test    │
+ └──────────────┬──────────────┘
+                │
+      ┌─────────▼─────────┐
+      │     DuckDB        │
+      └───────────────────┘
+
+## Example Metrics (could be extended)
 - Total sales by category
 - Customers by region
 - Repeat customer rate
 - Lifetime value (LTV)
 
-## ✅ dbt Features Used
+## dbt Features Used
 
 - `seeds`, `ref`, `sources`
 - `tests`: unique + not null
@@ -37,7 +54,7 @@ The pipeline builds a star schema with:
 - `schema.yml` documentation
 - Materializations: `view`, `table`
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 .
@@ -59,7 +76,7 @@ The pipeline builds a star schema with:
 │   │   └── orders.csv
 ```
 
-### 🛠 Airflow DAG
+### Airflow DAG
 
 This project includes an [Apache Airflow](https://airflow.apache.org/) DAG that orchestrates the full dbt workflow locally. The DAG includes the following steps:
 
@@ -68,35 +85,32 @@ This project includes an [Apache Airflow](https://airflow.apache.org/) DAG that 
 3. **Build models** using `dbt run`
 4. **Run tests** to validate models with `dbt test`
 
-The DAG is manually triggerable (no schedule by default) and is designed to run against a local DuckDB target. It showcases orchestration skills and simulates a production-style data pipeline using open-source tools only.
+The DAG is manually triggerable (no schedule by default) and is designed to run against a local DuckDB target. This DAG orchestrates the full dbt workflow using BashOperators.
 
 DAG file path:
 ```
 airflow/dags/dbt_duckdb_pipeline.py
 ```
 
+### Airflow Grid View
+
+![Airflow Grid View](assets/airflow_grid_view.png)
+
 ---
 
-## 🚀 How to Run
+## How to Run
 
 1. Clone the repo
-2. Install dependencies (`pip install dbt-duckdb`)
-3. Run:
-   ```
-   dbt seed
-   dbt build
-   dbt docs serve
-   ```
-
-Optional: Airflow DAGs can be used to run this on a schedule.
+2. Set-up the virtual environment
+3. Install dependencies (`pip install -r requirements.txt`)
+4. Initialize Airflow
+5. Start Airflow
+6. Trigger the DAG
 
 ---
 
-## 🙋‍♀️ About Me
+## Author
 
-I'm a full-stack data professional with experience in cloud data warehousing, ELT pipelines, and BI tooling. This project showcases my skills across modeling, orchestration, testing, and warehouse design — all using open-source, local-first tools.
-
-👉 [Connect on LinkedIn](https://www.linkedin.com/in/melissa-nicholas-7a143593/)
-
-
-Built with ❤️ by Melissa Nicholas
+**Built with ❤️ by Melissa Nicholas**  
+Senior BI Engineer | Data Nerd | Dashboard Whisperer  
+[Connect on LinkedIn](https://www.linkedin.com/in/melissa-nicholas-7a143593/)
