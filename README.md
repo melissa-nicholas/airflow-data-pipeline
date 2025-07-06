@@ -28,17 +28,21 @@ The pipeline builds a star schema with:
 
 ## Pipeline Flow
 
-           ┌──────────────┐
-           │   Airflow    │
-           └────┬─────────┘
-                │
- ┌──────────────▼──────────────┐
- │       dbt run + dbt test    │
- └──────────────┬──────────────┘
-                │
-      ┌─────────▼─────────┐
-      │     DuckDB        │
-      └───────────────────┘
+```
+    ┌──────────────┐
+    │   Airflow    │
+    └──────┬───────┘
+           │
+           ▼
+   ┌──────────────────┐
+   │ dbt run + dbt test│
+   └──────┬────────────┘
+          │
+          ▼
+     ┌───────────┐
+     │   DuckDB  │
+     └───────────┘
+```
 
 ## Example Metrics (could be extended)
 - Total sales by category
@@ -89,7 +93,7 @@ The DAG is manually triggerable (no schedule by default) and is designed to run 
 
 DAG file path:
 ```
-airflow/dags/dbt_duckdb_pipeline.py
+dags/dbt_duckdb_pipeline.py
 ```
 
 ### Airflow Grid View
@@ -106,6 +110,20 @@ airflow/dags/dbt_duckdb_pipeline.py
 4. Initialize Airflow
 5. Start Airflow
 6. Trigger the DAG
+
+---
+
+## Real-World Use Case
+
+This project simulates a modern ELT workflow in production. The DAG orchestrates a dbt transformation pipeline that turns raw order data into clean, analytics-ready models.
+
+It’s a lightweight yet powerful example of:
+- Using Airflow to automate data workflows
+- Structuring dbt models with staging, marts, and tests
+- Working with DuckDB for fast, local analytics
+- Following best practices like modular SQL, testing, and scheduling
+
+This setup could easily be adapted to power dashboards, cohort analysis, LTV tracking, or daily reporting in a real e-commerce company.
 
 ---
 
