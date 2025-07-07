@@ -1,15 +1,34 @@
+# Python cache and packaging
 __pycache__/
+*.py[cod]
 *.pyc
-*.db
+*.egg-info/
+
+# Logs and local databases
 *.log
+*.db
+*.sqlite
+*.duckdb
+
+# Virtual environments
+venv/
 .env
+.envrc
+
+# Airflow runtime files
 airflow/airflow.db
 airflow/logs/
 .airflow/
+airflow_home/
+logs/  # generic logs folder (if used)
+
+# dbt build artifacts
 .dbt/
 dbt_packages/
 target/
-.env/
-*.duckdb
 
+# OS / Editor files
 .DS_Store
+.idea/
+.vscode/
+*.swp
